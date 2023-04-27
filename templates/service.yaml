@@ -1,0 +1,21 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ template "rancher.fullname" . }}
+  labels:
+{{ include "rancher.labels" . | indent 4 }}
+spec:
+  type: NodePort
+  ports:
+  - port: 80
+    targetPort: 80
+    protocol: TCP
+    name: http
+    nodePort: 30080
+  - port: 443
+    targetPort: 444
+    protocol: TCP
+    name: https-internal
+    nodePort: 30443
+  selector:
+    app: {{ template "rancher.fullname" . }}
